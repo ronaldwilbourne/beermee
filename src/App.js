@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import { useEffect,useState } from 'react';
+import NavBar from './components/NavBar';
+import About from './components/About';
 import './App.css';
 
 function App() {
+  const [cocktails,setCotcocktails] = useState('')
+  const getCocktail = async () =>{
+  const res = await fetch('https://www.thecocktaildb.com/api.php')
+  const json = await res.json()
+  setCotcocktails(json)
+
+}
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <NavBar/>
+      <About/>
     </div>
   );
 }
