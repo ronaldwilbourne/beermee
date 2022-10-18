@@ -1,29 +1,29 @@
 import { useState, useEffect } from "react";
+import Breweries from "./components/Breweries";
 
 function App() {
-  const [cocktails, setCocktails] = useState("");
+  const [breweries, setBreweries] = useState([]);
 
-  const getCocktails = async () => {
+  const getBreweries = async () => {
     try {
       const res = await fetch(
-        "https://api.openbrewerydb.org/breweries?per_page=5"
+        "https://api.openbrewerydb.org/breweries?per_page=10"
       );
-      const json = await res.json();
-      setCocktails(json);
+
+      const data = await res.json();
+      setBreweries(data);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getCocktails();
+    getBreweries();
   }, []);
-
-  console.log(cocktails);
 
   return (
     <div className="App">
-      <h1>test</h1>
+      <Breweries data={breweries} />
     </div>
   );
 }
