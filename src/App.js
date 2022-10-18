@@ -1,22 +1,41 @@
-import { useEffect,useState } from 'react';
-import NavBar from './components/NavBar';
-import About from './components/About';
-import './App.css';
+
+import { useState, useEffect } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import About from "./components/About";
+import Breweries from "./components/Breweries";
+import NavBar from "./components/NavBar";
 
 function App() {
-  const [cocktails,setCotcocktails] = useState('')
-  const getCocktail = async () =>{
-  const res = await fetch('https://www.thecocktaildb.com/api.php')
-  const json = await res.json()
-  setCotcocktails(json)
+  const [breweries, setBreweries] = useState([]);
 
-}
+  const getBreweries = async () => {
+    try {
+      const res = await fetch(
+        "https://api.openbrewerydb.org/breweries?per_page=10"
+      );
+
+      const data = await res.json();
+      setBreweries(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getBreweries();
+  }, []);
 
   return (
-    <div className="App">
-      <NavBar/>
-      <About/>
-    </div>
+    <>
+
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Breweries data={Breweries}/>} />
+        <Route path="/About" element={<About />} />
+
+                       
+      </Routes>
+    </>
   );
 }
 
