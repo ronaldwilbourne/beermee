@@ -1,5 +1,9 @@
+
 import { useState, useEffect } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import About from "./components/About";
 import Breweries from "./components/Breweries";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [breweries, setBreweries] = useState([]);
@@ -22,9 +26,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <Breweries data={breweries} />
-    </div>
+    <>
+
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Breweries data={Breweries}/>} />
+        <Route path="/About" element={<About />} />
+
+                       
+      </Routes>
+    </>
   );
 }
 
