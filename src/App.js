@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import Breweries from "./components/Breweries";
 
 function App() {
+  const [breweries, setBreweries] = useState([]);
+
+  const getBreweries = async () => {
+    try {
+      const res = await fetch(
+        "https://api.openbrewerydb.org/breweries?per_page=10"
+      );
+
+      const data = await res.json();
+      setBreweries(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getBreweries();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Breweries data={breweries} />
     </div>
   );
 }
